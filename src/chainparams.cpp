@@ -47,6 +47,8 @@ public:
         const char* pszTimestamp = "The Times 09/Jul/2013 Globo caught bribing Receita Federal employee to rob R$615M worth tax evasion documents.";
         CTransaction txNew;
         txNew.message = CScript() << string(pszTimestamp);
+        // comment-chain mod , add field for address
+        txNew.addy = CScript() << string("url of page we are commenting on")
         txNew.userName = CScript() << string("nobody");
         txNew.nNonce  = 0; // spamMessage is not required to show POW to ease "extranonce" support
         genesis.vtx.push_back(txNew);

@@ -1018,41 +1018,51 @@ bool usernameExists(std::string const &username)
 }
 
 
+
+
 /*
 "userpost" :
 {
-        "n" : username,
-        "k" : seq number,
-        "t" : "post" / "dm" / "rt"
-        "msg" : message (post/rt)
-        "time" : unix utc
-        "height" : best height at user
-        "dm" : encrypted message (dm) -opt
-        "rt" : original userpost - opt
-        "sig_rt" : sig of rt - opt
-        "reply" : - opt
-        {
-                "n" : reference username
-                "k" : reference k
-        }
+"n" : username,
+"k" : seq number,
+"t" : "post" / "dm" / "rt"
+"msg" : message (post/rt)
+// comment-chain mod, add addy
+"addy" : address we are commenting on,
+"time" : unix utc
+"height" : best height at user
+"dm" : encrypted message (dm) -opt
+"rt" : original userpost - opt
+"sig_rt" : sig of rt - opt
+"reply" : - opt
+{
+"n" : reference username
+"k" : reference k
+}
 }
 "sig_userpost" : signature by userpost.n
 */
 
 bool createSignedUserpost(entry &v, std::string const &username, int k,
-                          std::string const &msg,               // either msg.size() or
+                          std::string const &msg, // either msg.size() or
+                          // comment chain mod, adding addy
+                          std::string const &addy,
                           entry const *rt, entry const *sig_rt, // rt != NULL or
-                          entry const *dm,                      // dm != NULL.
+                          entry const *dm, // dm != NULL.
                           std::string const &reply_n, int reply_k
                           )
 {
     entry &userpost = v["userpost"];
 
-    //
+   
     userpost["n"] = username;
     userpost["k"] = k;
+    // comment chain mod, adding addy
+    userpost["addy"] = addy;
     userpost["time"] = GetAdjustedTime();
     userpost["height"] = getBestHeight() - 1; // be conservative
+
+
 
     if( msg.size() ) {
         //userpost["t"] = "post";
@@ -1086,6 +1096,8 @@ bool createSignedUserpost(entry &v, std::string const &username, int k,
         return false;
     }
 }
+
+
 
 bool createDirectMessage(entry &dm, std::string const &to, std::string const &msg)
 {
@@ -1420,25 +1432,31 @@ int findLastPublicPostLocalUser( std::string strUsername )
 }
 
 
+
+
 Value newpostmsg(const Array& params, bool fHelp)
 {
-    if (fHelp || (params.size() != 3 && params.size() != 5))
+    // comment-chain mod increase the params numbers to accomidate
+    if (fHelp || (params.size() != 4 && params.size() != 6))
         throw runtime_error(
-            "newpostmsg <username> <k> <msg> [reply_n] [reply_k]\n"
+            // added <address>
+            "newpostmsg <username> <k> <msg> <addy> [reply_n] [reply_k]\n"
             "Post a new message to swarm");
 
     EnsureWalletIsUnlocked();
 
     string strUsername = params[0].get_str();
-    int k              = params[1].get_int();
-    string strK        = boost::lexical_cast<std::string>(k);
-    string strMsg      = params[2].get_str();
+    int k = params[1].get_int();
+    string strK = boost::lexical_cast<std::string>(k);
+    string strMsg = params[2].get_str();
+    // comment-chain mod, added param field for address field
+    string strAddy = params[3].get_str();
 
     string strReplyN, strReplyK;
     int replyK = 0;
-    if( params.size() == 5 ) {
-        strReplyN  = params[3].get_str();
-        replyK = params[4].get_int();
+    if( params.size() == 6 ) {
+        strReplyN = params[4].get_str();
+        replyK = params[5].get_int();
         strReplyK = boost::lexical_cast<std::string>(replyK);
     }
 
@@ -1448,7 +1466,8 @@ Value newpostmsg(const Array& params, bool fHelp)
     if( lastk >= 0 )
         v["userpost"]["lastk"] = lastk;
 
-    if( !createSignedUserpost(v, strUsername, k, strMsg,
+    // comment-chain mod, added strAddy, an additional field for storing a web address
+    if( !createSignedUserpost(v, strUsername, k, strMsg, strAddy,
                          NULL, NULL, NULL,
                          strReplyN, replyK) )
         throw JSONRPCError(RPC_INTERNAL_ERROR,"error signing post with private key of user");
@@ -1503,6 +1522,8 @@ Value newpostmsg(const Array& params, bool fHelp)
     hexcapePost(v);
     return entryToJson(v);
 }
+
+
 
 Value newdirectmsg(const Array& params, bool fHelp)
 {

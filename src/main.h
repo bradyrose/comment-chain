@@ -25,13 +25,14 @@ class CNode;
 struct CBlockIndexWorkComparator;
 
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
-static const unsigned int MAX_BLOCK_SIZE = 50000;
+// comment-chain mod, changed size of max block size
+static const unsigned int MAX_BLOCK_SIZE = 80000;
 /** The maximum size for mined blocks */
 static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
 /** The maximum size for transactions we're willing to relay/mine */
 //static const unsigned int MAX_STANDARD_TX_SIZE = MAX_BLOCK_SIZE_GEN/5;
-static const unsigned int MAX_STANDARD_TX_SIZE = (140+16+512+32); //msg+user+key+spare
-/** The maximum allowed number of signature check operations in a block (network rule) */
+// comment-chain mod changed max standard tx size's size
+static const unsigned int MAX_STANDARD_TX_SIZE = 8000; //5000+2000+32+512+32 / msg+url+user+key+spare/** The maximum allowed number of signature check operations in a block (network rule) */
 static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
 /** The maximum number of orphan transactions kept in memory */
 static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
@@ -60,9 +61,10 @@ static const int fHaveUPnP = true;
 static const int fHaveUPnP = false;
 #endif
 /** The maximum size for spam messages */
-static const int MAX_SPAM_MSG_SIZE = 140;
-/** The maximum size for username */
-static const unsigned int MAX_USERNAME_SIZE = 16;
+// comment-chain mod  increased max spam msg size
+static const int MAX_SPAM_MSG_SIZE = 5000;/** The maximum size for username */
+// comment-chain mod doubled size of max username size
+static const unsigned int MAX_USERNAME_SIZE = 32;
 
 
 extern CScript COINBASE_FLAGS;
