@@ -6,7 +6,7 @@ EXTRA_DIST = \
 SUBDIRS = src/leveldb
 LEVELDB_LIB = src/leveldb/libleveldb.a src/leveldb/libmemenv.a
 
-bin_PROGRAMS = twisterd
+bin_PROGRAMS = commentchaind
 
 KADEMLIA_SOURCES = \
   libtorrent/src/kademlia/dht_tracker.cpp      \
@@ -156,21 +156,21 @@ BITCOIN_TWISTER_SOURCES = \
     src/leveldb.cpp \
     src/txdb.cpp \
     src/chainparams.cpp \
-    src/twister.cpp \
-    src/twister_utils.cpp \
+    src/commentchain.cpp \
+    src/commentchain_utils.cpp \
     $(SSE2_SOURCES)
 
 if USE_UPNP
 UPNP_LIB = -lminiupnpc
 endif
 
-twisterd_SOURCES = $(LIBTORRENT_SOURCES) $(BITCOIN_TWISTER_SOURCES)
+commentchaind_SOURCES = $(LIBTORRENT_SOURCES) $(BITCOIN_TWISTER_SOURCES)
 
-twisterd_LDFLAGS = @OPENSSL_LDFLAGS@ @DB_CXX_LDFLAGS@
+commentchaind_LDFLAGS = @OPENSSL_LDFLAGS@ @DB_CXX_LDFLAGS@
 
-twisterd_DEPENDENCIES = $(LEVELDB_LIB)
+commentchaind_DEPENDENCIES = $(LEVELDB_LIB)
 
-twisterd_LDADD = $(LEVELDB_LIB) $(UPNP_LIB) \
+commentchaind_LDADD = $(LEVELDB_LIB) $(UPNP_LIB) \
     @BOOST_SYSTEM_LIB@ @BOOST_FILESYSTEM_LIB@ @BOOST_PROGRAM_OPTIONS_LIB@ @BOOST_THREAD_LIB@ @BOOST_CHRONO_LIB@ \
     @DB_CXX_LIBS@ @OPENSSL_LIBS@
 

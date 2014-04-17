@@ -1109,7 +1109,7 @@ void ThreadMapPort()
             }
         }
 
-        string strDesc = "twister " + FormatFullVersion();
+        string strDesc = "commentchain " + FormatFullVersion();
 
         try {
             loop {

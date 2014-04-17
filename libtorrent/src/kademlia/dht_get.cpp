@@ -30,7 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include "../../src/twister.h"
+#include "../../src/commentchain.h"
 
 #include "libtorrent/pch.hpp"
 

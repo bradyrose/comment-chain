@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = twisterd
+TARGET = commentchaind
 macx:TARGET = "Twisterd"
 VERSION = 0.8.2
 INCLUDEPATH += src src/json src/qt
@@ -200,8 +200,8 @@ HEADERS +=  \
     src/limitedmap.h \
     src/scrypt.h \
     src/utf8core.h \
-    src/twister.h \
-    src/twister_utils.h
+    src/commentchain.h \
+    src/commentchain_utils.h
 
 #    src/qt/bitcoingui.h
 #    src/qt/transactiontablemodel.h \
@@ -276,8 +276,8 @@ SOURCES += \ #src/qt/bitcoin.cpp \
     src/leveldb.cpp \
     src/txdb.cpp \
     src/scrypt.cpp \
-    src/twister.cpp \
-    src/twister_utils.cpp
+    src/commentchain.cpp \
+    src/commentchain_utils.cpp
 
 #    src/qt/guiutil.cpp \
 #    src/qt/bitcoingui.cpp \

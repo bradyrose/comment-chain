@@ -55,7 +55,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/kademlia/dht_get.hpp"
 #include "libtorrent/rsa.hpp"
 
-#include "../../src/twister.h"
+#include "../../src/commentchain.h"
 #define ENABLE_DHT_ITEM_EXPIRE
 
 namespace libtorrent { namespace dht

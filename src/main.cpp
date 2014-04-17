@@ -14,7 +14,7 @@
 #include "checkqueue.h"
 #include "chainparams.h"
 
-#include "twister.h"
+#include "commentchain.h"
 #include "utf8core.h"
 
 #include <boost/algorithm/string/replace.hpp>
@@ -50,7 +50,7 @@ int nScriptCheckThreads = 0;
 bool fImporting = false;
 bool fReindex = false;
 bool fBenchmark = false;
-bool fTxIndex = true; // always true in twister
+bool fTxIndex = true; // always true in commentchain
 unsigned int nCoinCacheSize = 5000;
 bool fHaveGUI = false;
 
@@ -62,7 +62,7 @@ multimap<uint256, CBlock*> mapOrphanBlocksByPrev;
 // Constant stuff for coinbase transactions we create:
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "twister Signed Message:\n";
+const string strMessageMagic = "commentchain Signed Message:\n";
 
 double dHashesPerSec = 0.0;
 int64 nHPSTimerStart = 0;
@@ -1183,7 +1183,7 @@ bool ConnectBlock(CBlock& block, CValidationState& state, CBlockIndex* pindex, C
         uint256 hashBlock = 0;
         if( GetTransaction(block.vtx[i].GetUsername(), txOld, hashBlock) ) {
             /* We have index for this username, which is not allowed, except:
-             * 1) same transaction. this shouldn't happen but it does if twisterd terminates badly.
+             * 1) same transaction. this shouldn't happen but it does if commentchiand terminates badly.
              *    explanation: TxIndex seems to get out-of-sync with block chain, so it may try to
              *    reconnect blocks which transactions are already written to the tx index.
              * 2) possibly a key replacement. check if new key is signed by the old one.
@@ -2127,7 +2127,7 @@ bool static LoadBlockIndexDB()
     //bool readTxIndex;
     //pblocktree->ReadFlag("txindex", readTxIndex);
     //printf("LoadBlockIndexDB(): transaction index %s\n", readTxIndex ? "enabled" : "disabled");
-    //assert( readTxIndex ); // always true in twister
+    //assert( readTxIndex ); // always true in commentchain
 
     // Load hashBestChain pointer to end of best chain
     pindexBest = pcoinsTip->GetBestBlock();
@@ -2262,6 +2262,67 @@ bool InitBlockIndex() {
     if (!fReindex) {
         try {
             CBlock &block = const_cast<CBlock&>(Params().GenesisBlock());
+
+
+
+
+// This part was used to generate the genesis block.
+// Uncomment to use it again.
+
+// If genesis block hash does not match, then generate new genesis hash.
+
+printf("Searching for genesis block...\n");
+// This will figure out a valid hash and Nonce if you're
+// creating a different genesis block:
+uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+uint256 thash;
+char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
+loop
+{
+   
+#if defined(USE_SSE2)
+// Detection would work, but in cases where we KNOW it always has SSE2,
+// it is faster to use directly than to use a function pointer or conditional.
+#if defined(_M_X64) || defined(__x86_64__) || defined(_M_AMD64) || (defined(MAC_OSX) && defined(__i386__))
+// Always SSE2: x86_64 or Intel MacOS X
+scrypt_1024_1_1_256_sp_sse2(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+#else
+// Detect SSE2: 32bit x86 Linux or Windows
+scrypt_1024_1_1_256_sp(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+#endif
+#else
+// Generic scrypt
+scrypt_1024_1_1_256_sp_generic(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
+#endif
+if (thash <= hashTarget)
+break;
+if ((block.nNonce & 0xFFF) == 0)
+{
+printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+}
+++block.nNonce;
+if (block.nNonce == 0)
+{
+printf("NONCE WRAPPED, incrementing time\n");
+++block.nTime;
+}
+}
+
+printf("\n");
+printf("\n");
+printf("block.nTime = %u \n", block.nTime);
+printf("block.nNonce = %u \n", block.nNonce);
+printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
+printf("\n");
+printf("\n");
+
+
+
+
+
+
+
+
             // Start new block file
             unsigned int nBlockSize = ::GetSerializeSize(block, SER_DISK, CLIENT_VERSION);
             CDiskBlockPos blockPos;

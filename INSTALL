@@ -1,4 +1,4 @@
-Building twister
+Building commentchain
 
 ***************************************************************
 *** THIS IS ALPHA SOFTWARE - THE BUILD SYSTEM IS UNFINISHED ***
@@ -21,8 +21,8 @@ Note1: 64-bit systems may need eg. "--with-boost-libdir=/usr/lib64"
 Note2: disable logging if you want, but at this point it might
        help to diagnose problems in case anything goes wrong.
 
-2) Then, for bitcoin/twister, you have actually two choices to
-build. Both will produce (almost) the same "twisterd" executable,
+2) Then, for bitcoin/commentchain, you have actually two choices to
+build. Both will produce (almost) the same "commentchaind" executable,
 so try which one works for you.
 
 2a) Using qmake

@@ -149,8 +149,8 @@ OBJS= \
     obj/leveldb.o \
     obj/txdb.o \
     obj/chainparams.o \
-    obj/twister.o \
-    obj/twister_utils.o
+    obj/commentchain.o \
+    obj/commentchain_utils.o
 
 ifdef USE_SSE2
 DEFS += -DUSE_SSE2
@@ -158,7 +158,7 @@ OBJS_SSE2= obj/scrypt-sse2.o
 OBJS += $(OBJS_SSE2)
 endif
 
-all: twisterd
+all: commentchain
 
 test check: test_bitcoin FORCE
 	./test_bitcoin
@@ -210,7 +210,7 @@ obj/%.o: %.cpp
 	      -e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
 	  rm -f $(@:%.o=%.d)
 
-twisterd: $(OBJS:obj/%=obj/%)
+commentchain: $(OBJS:obj/%=obj/%)
 	$(LINK) $(xCXXFLAGS) -o $@ $^ $(xLDFLAGS) $(LIBS)
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
@@ -226,7 +226,7 @@ test_bitcoin: $(TESTOBJS) $(filter-out obj/init.o obj/bitcoind.o,$(OBJS:obj/%=ob
 	$(LINK) $(xCXXFLAGS) -o $@ $(LIBPATHS) $^ $(TESTLIBS) $(xLDFLAGS) $(LIBS)
 
 clean:
-	-rm -f twisterd test_bitcoin
+	-rm -f commentchain test_bitcoin
 	-rm -f obj/*.o
 	-rm -f obj-test/*.o
 	-rm -f obj/*.P

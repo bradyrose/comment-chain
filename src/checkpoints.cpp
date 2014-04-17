@@ -83,7 +83,9 @@ namespace Checkpoints
         MapCheckpoints::const_iterator i = checkpoints.find(nHeight);
         if (i == checkpoints.end()) return true;
         if (hash != i->second) return false;
-        return SoftCheckpoints::CheckBlock(nHeight, hash);
+        // comment-chain mod
+        //return SoftCheckpoints::CheckBlock(nHeight, hash);
+         return true;
     }
 
     // Guess how far we are in the verification process at the given block index
@@ -117,14 +119,16 @@ namespace Checkpoints
         return fWorkBefore / (fWorkBefore + fWorkAfter);
     }
 
+    //  comment-chain mod checkpoints have been disabled 
     int GetTotalBlocksEstimate()
     {
         if (!fEnabled)
             return 0;
 
         const MapCheckpoints& checkpoints = *Checkpoints().mapCheckpoints;
-
-        return checkpoints.rbegin()->first;
+       // comment-chain mod
+       // return checkpoints.rbegin()->first;
+       return 0;
     }
 
     CBlockIndex* GetLastCheckpoint(const std::map<uint256, CBlockIndex*>& mapBlockIndex)
@@ -139,7 +143,9 @@ namespace Checkpoints
             const uint256& hash = i.second;
             std::map<uint256, CBlockIndex*>::const_iterator t = mapBlockIndex.find(hash);
             if (t != mapBlockIndex.end())
-                return t->second;
+               // comment-chain mod
+               // return t->second;
+                return NULL;
         }
         return NULL;
     }

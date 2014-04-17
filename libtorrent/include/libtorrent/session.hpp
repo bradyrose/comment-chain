@@ -437,7 +437,7 @@ namespace libtorrent
 		void add_dht_node(std::pair<std::string, int> const& node);
 		void add_dht_router(std::pair<std::string, int> const& node);
 
-		// [MF] twister
+		// [MF] commentchain
 		void dht_putData(std::string const &username, std::string const &resource, bool multi,
 			     entry const &value, std::string const &sig_user,
                  boost::int64_t timeutc, int seq);

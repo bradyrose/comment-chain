@@ -1049,10 +1049,10 @@ boost::filesystem::path GetDefaultDataDir()
     return pathRet / "Twister";
 #else
  #ifdef __ANDROID__
-    return "/sdcard/twister";
+    return "/sdcard/commentchain";
  #else
     // Unix
-    return pathRet / ".twister";
+    return pathRet / ".commentchain";
  #endif
 #endif
 #endif
@@ -1108,7 +1108,7 @@ boost::filesystem::path GetHTMLDir()
 
 boost::filesystem::path GetConfigFile()
 {
-    boost::filesystem::path pathConfigFile(GetArg("-conf", "twister.conf"));
+    boost::filesystem::path pathConfigFile(GetArg("-conf", "commentchain.conf"));
     if (!pathConfigFile.is_complete()) pathConfigFile = GetDataDir(false) / pathConfigFile;
     return pathConfigFile;
 }
@@ -1142,7 +1142,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
 
 boost::filesystem::path GetPidFile()
 {
-    boost::filesystem::path pathPidFile(GetArg("-pid", "twisterd.pid"));
+    boost::filesystem::path pathPidFile(GetArg("-pid", "commentchaind.pid"));
     if (!pathPidFile.is_complete()) pathPidFile = GetDataDir() / pathPidFile;
     return pathPidFile;
 }

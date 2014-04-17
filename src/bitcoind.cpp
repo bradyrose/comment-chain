@@ -46,13 +46,13 @@ bool AppInit(int argc, char* argv[])
 
         if (mapArgs.count("-?") || mapArgs.count("--help"))
         {
-            // First part of help message is specific to twisterd / RPC client
+            // First part of help message is specific to commentchaind / RPC client
             std::string strUsage = _("Twister version") + " " + FormatFullVersion() + "\n\n" +
                 _("Usage:") + "\n" +
-                  "  twisterd [options]                     " + "\n" +
-                  "  twisterd [options] <command> [params]  " + _("Send command to -server or twisterd") + "\n" +
-                  "  twisterd [options] help                " + _("List commands") + "\n" +
-                  "  twisterd [options] help <command>      " + _("Get help for a command") + "\n";
+                  "  commentchaind [options]                     " + "\n" +
+                  "  commentchaind [options] <command> [params]  " + _("Send command to -server or commentchaind") + "\n" +
+                  "  commentchaind [options] help                " + _("List commands") + "\n" +
+                  "  commentchaind [options] help <command>      " + _("Get help for a command") + "\n";
 
             strUsage += "\n" + HelpMessage();
 
@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
 
     //GenesisMiner();
 
-    // Connect twisterd signal handlers
+    // Connect commentchaind signal handlers
     noui_connect();
 
     fRet = AppInit(argc, argv);

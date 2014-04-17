@@ -182,6 +182,7 @@ public:
     static const int CURRENT_VERSION=1;
     int nVersion;
     CScript message;
+    CScript addy;
     CScript userName;
     CScript pubKey;
     unsigned int nNonce;

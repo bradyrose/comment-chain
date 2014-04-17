@@ -12,7 +12,7 @@
 #include "bitcoinrpc.h"
 #include "db.h"
 
-#include "twister_utils.h"
+#include "commentchain_utils.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>
@@ -242,7 +242,7 @@ static const CRPCCommand vRPCCommands[] =
     { "sendnewusertransaction", &sendnewusertransaction, false,     false,      false },
     { "verifychain",            &verifychain,            true,      false,      false },
     { "getlastsoftcheckpoint",  &getlastsoftcheckpoint,  true,      false,      false },
-    // twister dht network
+    // commentchain dht network
     { "dhtput",                 &dhtput,                 false,     true,       false },
     { "dhtget",                 &dhtget,                 false,     true,       true },
     { "newpostmsg",             &newpostmsg,             false,     true,       false },
@@ -752,7 +752,7 @@ void StartRPCThreads()
     {
         unsigned char rand_pwd[32];
         RAND_bytes(rand_pwd, 32);
-        string strWhatAmI = "To use twisterd";
+        string strWhatAmI = "To use commentchaind";
         if (mapArgs.count("-server"))
             strWhatAmI = strprintf(_("To use the %s option"), "\"-server\"");
         else if (mapArgs.count("-daemon"))
