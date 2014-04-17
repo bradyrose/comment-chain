@@ -2266,8 +2266,7 @@ bool InitBlockIndex() {
 
 
 ///*    
-
-
+cout << "Searching for a genesis block...\n";
 printf("Searching for genesis block...\n");
 // This will figure out a valid hash and Nonce if you're
 // creating a different genesis block:
@@ -2277,6 +2276,7 @@ char scratchpad[SCRYPT_SCRATCHPAD_SIZE];
  
 loop
 {
+cout << "\n";
 scrypt_1024_1_1_256_sp_generic(BEGIN(block.nVersion), BEGIN(thash), scratchpad);
 if (thash <= hashTarget)
 break;
@@ -2291,8 +2291,8 @@ printf("NONCE WRAPPED, incrementing time\n");
 ++block.nTime;
 }
 }
-
-printf("GENESIS BLOCK FOUND!!");
+cout << "GENESIS BLOCK FOUND!!";
+printf("GENESIS BLOCK FOUND!! \n");
 printf("block.nTime = %u \n", block.nTime);
 printf("block.nNonce = %u \n", block.nNonce);
 printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
