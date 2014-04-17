@@ -43,13 +43,9 @@ public:
         nSubsidyHalvingInterval = 210000;
 
        
-        // comment chain mod
-        const char* pszTimestamp = "The Times 09/Jul/2013 Globo caught bribing Receita Federal employee to rob R$615M worth tax evasion documents.";
-        //const char* pszTimestamp = "Friday Apr 11, 2014 Censorship Is Free Speech, US Judge Rules";
-        //const char* pszTimestamp = "The Times 09/Jul/2013 Globo caught bribing Receita Federal employee to rob R$615M worth tax evasion documents.";
+        const char* pszTimestamp = "Friday Apr 11, 2014 Censorship Is Free Speech, US Judge Rules";
         CTransaction txNew;
         txNew.message = CScript() << string(pszTimestamp);
-        // comment-chain mod , add field for address
         txNew.addy = CScript() << string("url of page we are commenting on");
         txNew.userName = CScript() << string("nobody");
         txNew.nNonce  = 0; // spamMessage is not required to show POW to ease "extranonce" support
@@ -58,28 +54,21 @@ public:
         genesis.hashMerkleRoot = genesis.BuildMerkleTree();
         genesis.nVersion = 1;
         genesis.nHeight  = 0;
-        genesis.nTime    = 1384394255;
+        genesis.nTime    = 1397721164;
         genesis.nBits    = 0x1f03ffff;
-        genesis.nNonce   = 2934;
+        genesis.nNonce   = 97645;
 
         hashGenesisBlock = genesis.GetHash();
 
-        //printf("hashGenesisBlock:");
-        //printf("%s\n", hashGenesisBlock.ToString().c_str());
-        //printf("");
-        //printf("hashMerkleRoot:");
-        //printf("%s\n", genesis.hashMerkleRoot.ToString().c_str());
-        //printf("");
-        	
-
-
-
- 		//printf("************************************");
+ 
+ 		//printf("\n");
+ 		//printf("\n");
         //genesis.print();
- 		//printf("************************************");
+ 		//printf("\n");
+ 		//printf("\n");
           
-        //assert(hashGenesisBlock == uint256("9915158279673d101912be80f25c20627f1dd8bf5231e7c46bfec5ed19737f44"));
-        //assert(genesis.hashMerkleRoot == uint256("e22abfa3c6ef3e68671d7714395ac10a1ca5d39c18312c4e2607320a2af6f204"));
+       // assert(hashGenesisBlock == uint256("75259b50cce476125e1a26db18dcd22f476ad421d556c5a9b946dc149df334d3"));
+        
         //vSeeds.push_back(CDNSSeedData("commentchain.net.co", "seed.commentchain.net.co"));
         //vSeeds.push_back(CDNSSeedData("gombadi.com", "dnsseed.gombadi.com"));
         //vSeeds.push_back(CDNSSeedData("commentchain.net.co", "seed2.commentchain.net.co"));

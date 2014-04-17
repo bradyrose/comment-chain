@@ -24,6 +24,7 @@ class CNode;
 
 struct CBlockIndexWorkComparator;
 
+
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
 // comment-chain mod, changed size of max block size
 static const unsigned int MAX_BLOCK_SIZE = 80000;
